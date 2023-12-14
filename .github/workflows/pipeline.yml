@@ -24,3 +24,5 @@ jobs:
       run: npm install
     - name: Run the Unit test
       run: npm run test:unit
+    - name: Display my username
+      run: echo 'Violetta1'
