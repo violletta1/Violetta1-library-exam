@@ -9,9 +9,7 @@ on:
 
 jobs:
   build-test:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
@@ -27,7 +25,6 @@ jobs:
     - name: Display my username
       run: echo 'Violetta1'
 
-
   deploy:
     needs: build-test
     runs-on: ubuntu-latest
@@ -37,4 +34,22 @@ jobs:
         with:
           service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
           api-key: ${{ secrets.MY_RENDER_API_KEY }}
+
+  run-ui-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'npm'
+    - name: Install playwright
+      run: npx playwright install
+    - name: Run the UI test
+      run: npm run test:ui
+
+        
 
